@@ -32,6 +32,16 @@ struct Mozo {
     float totalComision; 
 };
 
+const int K = 5;
+
+void encriptar(const char clave[], char resultado[]) {
+    int i = 0;
+    while (clave[i] != '\0') {
+        resultado[i] = clave[i] + K;
+        i++;
+    }
+    resultado[i] = '\0';
+}
 
 void normalizarMozos() {
 
@@ -77,7 +87,9 @@ void normalizarMozos() {
             mozoID++;
 
             strcpy(nuevoMozo.nombre, comandaHistorica.nombreMozo);
-            strcpy(nuevoMozo.password, "default");
+            char clave[20];
+            sprintf(clave, "%d", nuevoMozo.idMozo);
+            encriptar(clave, nuevoMozo.password);
             nuevoMozo.totalComision = comandaHistorica.comision;
 
             fwrite(&nuevoMozo, sizeof(Mozo), 1, archivoMozos);
