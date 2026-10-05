@@ -3,6 +3,13 @@
 #include <array>
 using namespace std;
 
+struct Comanda {
+    int idMozo; 
+    int codigoProducto; 
+    int cantidad; 
+    float comision;
+};
+
 struct ComandaHistorica {
     char fecha[11];
     char nombreMozo[50];
@@ -156,34 +163,31 @@ int obtenerIdMozo(const char nombreMozo[]) {
 
 void ordenarPorMozo(FILE* archivoDia) {
 
-    ComandaHistorica c1;
-    ComandaHistorica c2;
+    Comanda c1;
+    Comanda c2;
 
     fseek(archivoDia, 0, SEEK_END);
-    long cantidad = ftell(archivoDia) / sizeof(ComandaHistorica);
+    long cantidad = ftell(archivoDia) / sizeof(Comanda);
 
     for(long i = 0; i < cantidad - 1; i++) {
 
         for(long j = 0; j < cantidad - i - 1; j++) {
 
             // Ir al registro j
-            fseek(archivoDia, j * sizeof(ComandaHistorica), SEEK_SET);
-            fread(&c1, sizeof(ComandaHistorica), 1, archivoDia);
+            fseek(archivoDia, j * sizeof(Comanda), SEEK_SET);
+            fread(&c1, sizeof(Comanda), 1, archivoDia);
 
             // Leer el registro j + 1
-            fread(&c2, sizeof(ComandaHistorica), 1, archivoDia);
+            fread(&c2, sizeof(Comanda), 1, archivoDia);
 
-            int idMozo1 = obtenerIdMozo(c1.nombreMozo);
-            int idMozo2 = obtenerIdMozo(c2.nombreMozo);
-
-            if(idMozo1 > idMozo2) {
+            if(c1.idMozo > c2.idMozo) {
 
                 // Volver al registro j
-                fseek(archivoDia, j * sizeof(ComandaHistorica), SEEK_SET);
+                fseek(archivoDia, j * sizeof(Comanda), SEEK_SET);
 
                 // Escribirlos intercambiados
-                fwrite(&c2, sizeof(ComandaHistorica), 1, archivoDia);
-                fwrite(&c1, sizeof(ComandaHistorica), 1, archivoDia);
+                fwrite(&c2, sizeof(Comanda), 1, archivoDia);
+                fwrite(&c1, sizeof(Comanda), 1, archivoDia);
             }
         }
     }
@@ -217,7 +221,12 @@ void separarVentasPorDia() {
 
             while(fread(&comandaHistorica, sizeof(ComandaHistorica), 1, archivoComandas) == 1) {
                 if(strcmp(comandaHistorica.fecha, fechaEnProceso) == 0) {
-                    fwrite(&comandaHistorica, sizeof(ComandaHistorica), 1, archivoDia);
+                    Comanda c;
+                    c.idMozo = obtenerIdMozo(comandaHistorica.nombreMozo);  // número, no nombre
+                    c.codigoProducto = comandaHistorica.codigoProducto;
+                    c.cantidad = comandaHistorica.cantidad;
+                    c.comision = comandaHistorica.comision;
+                    fwrite(&c, sizeof(Comanda), 1, archivoDia);
                 }
             }
             
@@ -263,35 +272,35 @@ int main() {
 
     //PRUEBAS PARA VER SI SEPARA BIEN LAS VENTAS POR DIA
     separarVentasPorDia();
-    ComandaHistorica comandaPrueba;
+    Comanda comandaPrueba;
     FILE* archivoDia = fopen("comandas_02-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(ComandaHistorica), 1, archivoDia) == 1) {
-        cout << "Fecha: " << comandaPrueba.fecha << ", Nombre Mozo: " << comandaPrueba.nombreMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
+    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
+        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
     }
     cout << "--------------------------------" << endl;
     archivoDia = fopen("comandas_03-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(ComandaHistorica), 1, archivoDia) == 1) {
-        cout << "Fecha: " << comandaPrueba.fecha << ", Nombre Mozo: " << comandaPrueba.nombreMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
+    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
+        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
     }
     cout << "--------------------------------" << endl;
     archivoDia = fopen("comandas_04-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(ComandaHistorica), 1, archivoDia) == 1) {
-        cout << "Fecha: " << comandaPrueba.fecha << ", Nombre Mozo: " << comandaPrueba.nombreMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
+    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
+        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
     }
     cout << "--------------------------------" << endl;
     archivoDia = fopen("comandas_05-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(ComandaHistorica), 1, archivoDia) == 1) {
-        cout << "Fecha: " << comandaPrueba.fecha << ", Nombre Mozo: " << comandaPrueba.nombreMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
+    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
+        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
     }
     cout << "--------------------------------" << endl;
     archivoDia = fopen("comandas_06-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(ComandaHistorica), 1, archivoDia) == 1) {
-        cout << "Fecha: " << comandaPrueba.fecha << ", Nombre Mozo: " << comandaPrueba.nombreMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
+    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
+        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
     }
     cout << "--------------------------------" << endl;
     archivoDia = fopen("comandas_07-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(ComandaHistorica), 1, archivoDia) == 1) {
-        cout << "Fecha: " << comandaPrueba.fecha << ", Nombre Mozo: " << comandaPrueba.nombreMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
+    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
+        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
     }
     fclose(archivoDia);
     cout << "Separacion de ventas por dia completada." << endl;
