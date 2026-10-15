@@ -45,7 +45,7 @@ void encriptar(const char clave[], char resultado[]) {
 
 void normalizarMozos() {
 
-    FILE* archivoComandas = fopen("comandas_historicas.dat", "rb");
+    FILE* archivoComandas = fopen("datos/comandas_historicas.dat", "rb");
 
     if (archivoComandas == NULL) {
         cout << "No se pudo abrir el archivo de comandas." << endl;
@@ -102,14 +102,14 @@ void normalizarMozos() {
 
 void descontarStockViejo() {
 
-    FILE* archivoComandas = fopen("comandas_historicas.dat", "rb");
+    FILE* archivoComandas = fopen("datos/comandas_historicas.dat", "rb");
 
     if (archivoComandas == NULL) {
         cout << "No se pudo abrir el archivo de comandas." << endl;
         return;
     }
 
-    FILE* archivoInventario = fopen("inventario.dat", "rb+");
+    FILE* archivoInventario = fopen("datos/inventario.dat", "rb+");
 
     if (archivoInventario == NULL) {
         cout << "No se pudo abrir el archivo del inventario." << endl;
@@ -207,7 +207,7 @@ void ordenarPorMozo(FILE* archivoDia) {
 
 void separarVentasPorDia() {
 
-    FILE* archivoComandas = fopen("comandas_historicas.dat", "rb");
+    FILE* archivoComandas = fopen("datos/comandas_historicas.dat", "rb");
 
     if (archivoComandas == NULL) {
         cout << "No se pudo abrir el archivo de comandas." << endl;
@@ -262,60 +262,12 @@ int main() {
 
     //PRUEBAS PARA VER SI NORMALIZA BIEN A LOS MOZOS
     normalizarMozos();
-    Mozo mozoPrueba;
-    FILE* archivoMozos = fopen("mozos.dat", "rb");
-    while (fread(&mozoPrueba, sizeof(Mozo), 1, archivoMozos) == 1) {
-        cout << "ID: " << mozoPrueba.idMozo << ", Nombre: " << mozoPrueba.nombre << ", Comision: " << mozoPrueba.totalComision << endl;
-    }
-    fclose(archivoMozos);
-    cout << "Normalizacion de mozos completada." << endl;
-    cout << endl;
 
     //PRUEBAS PARA VER SI NORMALIZA EL INVENTARIO
     descontarStockViejo();
-    Producto producto;
-    FILE* archivoInventario = fopen("inventario.dat", "rb");
-    while (fread(&producto, sizeof(Producto), 1, archivoInventario) == 1) {
-        cout << "Codigo: " << producto.codigo << ", Stock: " << producto.stockActual << endl;
-    }
-    fclose(archivoInventario);
-    cout << "Descuento de stock completado." << endl;
-    cout << endl;
 
     //PRUEBAS PARA VER SI SEPARA BIEN LAS VENTAS POR DIA
     separarVentasPorDia();
-    Comanda comandaPrueba;
-    FILE* archivoDia = fopen("comandas_02-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
-        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
-    }
-    cout << "--------------------------------" << endl;
-    archivoDia = fopen("comandas_03-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
-        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
-    }
-    cout << "--------------------------------" << endl;
-    archivoDia = fopen("comandas_04-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
-        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
-    }
-    cout << "--------------------------------" << endl;
-    archivoDia = fopen("comandas_05-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
-        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
-    }
-    cout << "--------------------------------" << endl;
-    archivoDia = fopen("comandas_06-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
-        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
-    }
-    cout << "--------------------------------" << endl;
-    archivoDia = fopen("comandas_07-06-2025.dat", "rb");
-    while (fread(&comandaPrueba, sizeof(Comanda), 1, archivoDia) == 1) {
-        cout << "ID: " << comandaPrueba.idMozo << ", Codigo Producto: " << comandaPrueba.codigoProducto << ", Cantidad: " << comandaPrueba.cantidad << ", Comision: " << comandaPrueba.comision << endl;
-    }
-    fclose(archivoDia);
-    cout << "Separacion de ventas por dia completada." << endl;
 
     return 0;
 }
