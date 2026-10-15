@@ -169,7 +169,7 @@ int main() {
     else              cout << "La planilla ya tiene " << nViejos << " ventas, se agregan al final.\n";
 
     FILE *fComandas = fopen(nomArch, "ab");
-    FILE *fInv      = fopen("datos/inventario.dat", "r+b");
+    FILE *fInv      = fopen("inventario.dat", "r+b");
     if (fComandas == NULL || fInv == NULL) {
         cout << "Error: no se pudo abrir la planilla o inventario.dat\n";
         return 1;

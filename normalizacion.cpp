@@ -45,7 +45,7 @@ void encriptar(const char clave[], char resultado[]) {
 
 void normalizarMozos() {
 
-    FILE* archivoComandas = fopen("datos/comandas_historicas.dat", "rb");
+    FILE* archivoComandas = fopen("comandas_historicas.dat", "rb");
 
     if (archivoComandas == NULL) {
         cout << "No se pudo abrir el archivo de comandas." << endl;
@@ -102,14 +102,14 @@ void normalizarMozos() {
 
 void descontarStockViejo() {
 
-    FILE* archivoComandas = fopen("datos/comandas_historicas.dat", "rb");
+    FILE* archivoComandas = fopen("comandas_historicas.dat", "rb");
 
     if (archivoComandas == NULL) {
         cout << "No se pudo abrir el archivo de comandas." << endl;
         return;
     }
 
-    FILE* archivoInventario = fopen("datos/inventario.dat", "rb+");
+    FILE* archivoInventario = fopen("inventario.dat", "rb+");
 
     if (archivoInventario == NULL) {
         cout << "No se pudo abrir el archivo del inventario." << endl;
@@ -207,7 +207,7 @@ void ordenarPorMozo(FILE* archivoDia) {
 
 void separarVentasPorDia() {
 
-    FILE* archivoComandas = fopen("datos/comandas_historicas.dat", "rb");
+    FILE* archivoComandas = fopen("comandas_historicas.dat", "rb");
 
     if (archivoComandas == NULL) {
         cout << "No se pudo abrir el archivo de comandas." << endl;
