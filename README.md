@@ -4,10 +4,11 @@ Trabajo Práctico grupal de **Algoritmos y Estructuras de Datos** (UTN FRBA) —
 unidad de **archivos binarios en C/C++**.
 
 > **Grupo:** _(Grupo F)_
-> **Integrantes:** _Juan Ignacio Gonzalez_ _juanignaciogonzalez-nlj_
-_Ignacio Malinovsky_ _ignacionacho0808-lab_
-_Sebastian Andres Alcantara Gonzalez_ _salcantaragonzalez-spec_
-_Lucio Santillan_ _lucsantillanutn_
+> **Integrantes:** 
+_Juan Ignacio Gonzalez_ _juanignaciogonzalez-nlj_ _ventas.cpp_
+_Ignacio Malinovsky_ _ignacionacho0808-lab_ _cierre.cpp_
+_Sebastian Andres Alcantara Gonzalez_ _salcantaragonzalez-spec_ _resumen.cpp_
+_Lucio Santillan_ _lucsantillanutn_ _normalizacion.cpp_
 
 La consigna completa está en **`enunciado.pdf`**. Leela antes de arrancar: el
 cliente (Alberto) cuenta su problema a su manera y ustedes tienen que descubrir

@@ -260,13 +260,10 @@ void separarVentasPorDia() {
 
 int main() {
 
-    //PRUEBAS PARA VER SI NORMALIZA BIEN A LOS MOZOS
     normalizarMozos();
 
-    //PRUEBAS PARA VER SI NORMALIZA EL INVENTARIO
     descontarStockViejo();
-
-    //PRUEBAS PARA VER SI SEPARA BIEN LAS VENTAS POR DIA
+    
     separarVentasPorDia();
 
     return 0;
