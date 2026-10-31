@@ -34,6 +34,36 @@ struct Mozo {
 
 const int K = 5;
 
+void convertirNumero(int numero, char resultado[]) {
+
+    int i = 0;
+    char auxiliar[20];
+
+    if(numero == 0) {
+        resultado[0] = '0';
+        resultado[1] = '\0';
+        return;
+    }
+
+    while(numero > 0) {
+        int digito = numero % 10;
+        auxiliar[i] = digito + '0';
+
+        numero = numero / 10;
+        i++;
+    }
+
+    int j = 0;
+
+    while(i > 0) {
+        resultado[j] = auxiliar[i - 1];
+        i--;
+        j++;
+    }
+
+    resultado[j] = '\0';
+}
+
 void encriptar(const char clave[], char resultado[]) {
     int i = 0;
     while (clave[i] != '\0') {
@@ -88,7 +118,7 @@ void normalizarMozos() {
 
             strcpy(nuevoMozo.nombre, comandaHistorica.nombreMozo);
             char clave[20];
-            sprintf(clave, "%d", nuevoMozo.idMozo);
+            convertirNumero(nuevoMozo.idMozo, clave);
             encriptar(clave, nuevoMozo.password);
             nuevoMozo.totalComision = comandaHistorica.comision;
 
@@ -214,7 +244,7 @@ void separarVentasPorDia() {
         return;
     }
 
-    ComandaHistorica comandaHistorica;
+    ComandaHistorica comandaHistorica;  
     string nombreArchivo;
     char fechaEnProceso[11];
     
